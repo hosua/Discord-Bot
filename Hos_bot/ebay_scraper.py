@@ -16,17 +16,18 @@ def scrape(item, num_items):
     
     #now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
-    item_dict = {}
 
     rtn = "============================================================\n"
 
     def get_items():
         return driver.find_elements_by_class_name("s-item__info")
 
-    def get_dict():
-        for i in range(1):
-            items = get_items()
-            #rtn += "==================Page " + str(i+1) + "===================="
+    def get_item_list(num_items):
+        #for i in range(1):
+        item_list = []
+        items = get_items()
+        #rtn += "==================Page " + str(i+1) + "===================="
+        while len(item_list) < num_items+1:
             try:
                 next_page = driver.find_element_by_class_name("pagination__next") # f'`{url}`
             except:
@@ -39,7 +40,8 @@ def scrape(item, num_items):
                     details = items[j].find_element_by_class_name("s-item__details")
                     detail = details.find_element_by_class_name("s-item__detail")
                     price = detail.find_element_by_class_name("s-item__price").text
-                    item_dict[title] = {"price": price, "link": link}
+                    if len(link) < 100:   # Only do short links
+                        item_list.append({"title": title, "price": price, "link": link})
                     #rtn += str(k-1) + ". " + price + " - " + title + "\n"
                     #rtn += link + "\n"
                 except:
@@ -49,11 +51,12 @@ def scrape(item, num_items):
                 next_page.click()
             except: # It kinda seems dumb to do it this way but this throws weird errors.
                 break
-        #print(item_dict)
-        return item_dict
-    item_dict = get_dict()
+            print(item_list)
+            print(len(item_list))
+            return item_list
+    item_list = get_item_list(num_items)
     #print(item_dict)
-    return item_dict
+    return item_list
     """
     i = 0
     rtn = "Your ebay results:\n\n"

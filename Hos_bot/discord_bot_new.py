@@ -129,27 +129,41 @@ async def on_message(ctx):
         await ctx.reply("Polo!", mention_author=True)
     if ctx.content.lower().startswith("fuck you") or ctx.content.lower().startswith("fuckyou"):
         await ctx.reply("...rude.", mention_author=True)
+    if ctx.content.lower().startswith("good bot"):
+        await ctx.reply("Thanks!", mention_author=True)
+    if ctx.content.lower().startswith("bad bot"):
+        await ctx.reply(":( Sorry...", mention_author=True)
 @bot.command(help="Search ebay")
-async def ebay(ctx, arg1, arg2=5):
-    await ctx.reply("Searching ebay for your results!")
-    if 0 < arg2 < 11:
-        i = 0
-        item_dict = E_scraper.scrape(arg1, arg2)
-
-        rtn = "Your ebay results:\n"
-        for item in item_dict:
-            if len(item_dict[item]["link"]) < 100:   # Only do short links
-                i += 1
-                rtn += str(i) + ". " + item_dict[item]["price"] + " - " + "***" + item + "***" + "\n"
-                rtn +=item_dict[item]["link"] + "\n"
-                try:
-                    if i == int(arg2):
-                        break
-                except:
-                    pass
-        await ctx.reply(rtn)
+async def ebay(ctx, arg1, num_of_entries=5):
+    await ctx.reply("Searching ebay for your results! This may take a few seconds...", mention_author=True)
+    max_entries = 50
+    rtn_list = []
+    if 0 < num_of_entries < max_entries+1:
+        item_list = E_scraper.scrape(arg1, num_of_entries)
+        #print(item_list)
+        rtn = "\n"
+        for i in range(len(item_list)):
+            price = item_list[i]["price"]
+            title = item_list[i]["title"]
+            link = item_list[i]["link"]
+            rtn += str(i+1) + ". " + price + " - " + \
+            "***" + title + "***" + "\n"
+            rtn += link + "\n"
+            #print(rtn)
+            try:
+                if i == int(num_of_entries):
+                    break
+            except:
+                pass
+            if i % 9 == 0 and i != 0:
+                rtn_list.append(rtn)
+                rtn = ""
+        for item in rtn_list:
+            print(item)
+            await ctx.reply(item, mention_author=True)
+        #await ctx.reply(rtn)
     else:
-        await ctx.reply("Error! The maximum I can do at once is 10!")
+        await ctx.reply("Error! The maximum I can do at once is " + str(max_entries) + "!")
 @bot.command(help="!youtube 'hot dog' # This will return the first # links")
 async def youtube(ctx, arg1, arg2=1):
     try:
