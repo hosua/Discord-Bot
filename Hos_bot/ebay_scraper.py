@@ -1,16 +1,30 @@
 from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+
 from datetime import datetime
-import time
-
-
+import time, os
 
 
 def scrape(item, num_items):
     
-    driver = webdriver.Chrome()
+    chrome_opts = webdriver.ChromeOptions()
+    chrome_opts.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+    chrome_opts.add_argument("-headless")
+    chrome_opts.add_argument("--disable-dev-shm-usage")
+    chrome_opts.add_argument("--no-sandbox")
     ebay_home = "https://www.ebay.com/"
+
+    driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_opts)
+
     driver.get(ebay_home)
     textBox = driver.find_element_by_id("gh-ac")
+
+    # From https://www.andressevilla.com/running-chromedriver-with-python-selenium-on-heroku/
+
+
+    #FF_profile.update_preferences()
+
+
 
     textBox.send_keys(item + "\n")
     

@@ -25,6 +25,7 @@ idna==2.10
 mpmath==1.2.1
 multidict==5.1.0
 packaging==20.9
+Pillow==8.2.0
 pip==21.0.1
 protobuf==3.15.8
 pyasn1==0.4.8
@@ -39,6 +40,7 @@ pytz==2021.1
 requests==2.24.0
 rfc3986==1.4.0
 rsa==4.7.2
+selenium==3.141.0
 setuptools==56.0.0
 six==1.15.0
 sniffio==1.2.0
