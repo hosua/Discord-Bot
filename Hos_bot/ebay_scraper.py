@@ -65,8 +65,8 @@ def scrape(item, num_items):
                 next_page.click()
             except: # It kinda seems dumb to do it this way but this throws weird errors.
                 break
-            print(item_list)
-            print(len(item_list))
+            #print(item_list)
+            #print(len(item_list))
             return item_list
     item_list = get_item_list(num_items)
     #print(item_dict)

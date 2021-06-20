@@ -15,10 +15,10 @@ from discord.ext.commands import has_permissions, MissingPermissions
 import ebay_scraper as E_scraper
 import youtube_dl
 import random
-
+# why did i design this like such shit
 es = Equation_Solver()
 yout = Youtube_Searcher()
-goog =  Google_search()
+goog = Google_search()
 pc = Product_Calculator()
 rps = Rock_Paper_Scissors()
 tg = Text_Gen()
@@ -149,7 +149,7 @@ async def ebay(ctx, arg1, num_of_entries=5):
             rtn += str(i+1) + ". " + price + " - " + \
             "***" + title + "***" + "\n"
             rtn += link + "\n"
-            #print(rtn)
+            print(rtn)
             try:
                 if i == int(num_of_entries):
                     break
@@ -159,9 +159,9 @@ async def ebay(ctx, arg1, num_of_entries=5):
                 rtn_list.append(rtn)
                 rtn = ""
         for item in rtn_list:
-            print(item)
+            #print(item)
             await ctx.reply(item, mention_author=True)
-        #await ctx.reply(rtn)
+        await ctx.reply(rtn)
     else:
         await ctx.reply("Error! The maximum I can do at once is " + str(max_entries) + "!")
 @bot.command(help="!youtube 'hot dog' # This will return the first # links")
