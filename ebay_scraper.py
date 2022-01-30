@@ -13,7 +13,9 @@ def scrape(item, num_items):
     chrome_opts.add_argument("--disable-dev-shm-usage")
     chrome_opts.add_argument("--no-sandbox")
     ebay_home = "https://www.ebay.com/"
-
+    # This line must be used when testing locally
+    # driver = webdriver.Chrome(options=chrome_opts)
+    # This is is for heroku, uncomment it when pushing to heroku!
     driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=chrome_opts)
 
     driver.get(ebay_home)
@@ -87,5 +89,5 @@ def scrape(item, num_items):
     return rtn
     """
 
-
-#print(scrape("table", 5))
+# Quick test
+# print(scrape("table", 5))
